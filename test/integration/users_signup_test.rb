@@ -27,6 +27,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     user = User.find_by!(email: "user@example.com")
     assert_redirected_to user
+    assert is_logged_in?
+    assert_equal user.id, session[:user_id]
     follow_redirect!
     assert_template "users/show"
     assert_not flash.empty?

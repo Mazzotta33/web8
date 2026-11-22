@@ -1,54 +1,45 @@
-# Лабораторная работа 7 — Sign Up
+# Лабораторная работа 8 — Basic Login
 
-Методичка: `../methodical/Ch7.odt`. Ruby 3.4.11, Rails 8.1.4,
-Bundler 4.0.21, SQLite в development/test.
+Продолжение лабораторной 7 (`web7`). Методичка: `../methodical/Ch8.odt`.
+Ruby 3.4.11, Rails 8.1.4, Bundler 4.0.21; SQLite в development/test.
 
-## Запуск
+## Запуск в Windows
 
-Откройте терминал в папке `web7`:
+В терминале из папки `web8`:
 
 ```powershell
 chcp 65001
-rails server -p 3007
-```
-
-В браузере: **http://localhost:3007/signup**.
-Остановка сервера — Ctrl+C. `chcp 65001` включает UTF-8 для кириллицы в пути;
-выполняйте один раз в новом терминале.
-
-Если запускаете единственный проект, достаточно `rails server`:
-тогда адрес будет http://localhost:3000.
-
-## Подготовка после изменения зависимостей или в новой копии
-
-```powershell
 bundle install
 rails db:prepare
 rails dartsass:build
+rails server -p 3008
 ```
 
-После изменения SCSS повторите `rails dartsass:build` или откройте второй
-терминал в папке проекта и запустите `rails dartsass:watch`.
+Открыть http://localhost:3008. Регистрация: `/signup`, вход: `/login`.
+Создайте аккаунт через форму регистрации — вход произойдёт автоматически.
+Для выхода откройте Account → Log out. Остановка сервера: Ctrl+C.
 
-## Остальные команды
+База этой лабораторной: `storage/development.sqlite3` внутри `web8`.
+Пользователи из базы `web7` автоматически не переносятся.
+
+После изменения SCSS выполните `rails dartsass:build` либо запустите
+`rails dartsass:watch` в отдельном терминале. На Windows Puma и тесты
+работают в одном процессе. Для Docker предусмотрен `compose.yaml`
+с портом 3000 вместо 3008.
+
+## Проверки
 
 ```powershell
 rails test
-rails console
-rails dbconsole
-rails routes
+bundle exec rubocop
 ```
 
-Если терминал открыт до установки Ruby, закройте и откройте его снова,
-чтобы обновился PATH. Для ручного запуска `ruby bin/rails` в пути с кириллицей
-сначала выполните `chcp 65001`.
+Реализованы разделы 8.1–8.3: форма входа, аутентификация через bcrypt,
+`flash.now`, временная сессия, `current_user`, `logged_in?`, меню Account,
+мобильное меню, вход после регистрации и выход с HTTP 303.
+Перед входом и при выходе сессия сбрасывается через `reset_session`.
 
-Windows запускает Puma и тесты в одном процессе; настройки Linux сохранены.
-База проекта: `storage/development.sqlite3`.
-
-## Содержание главы
-
-Регистрация `/signup`, ошибки формы, strong parameters, профиль `/users/:id`,
-Gravatar, flash и debug в development. Вход в аккаунт относится к главе 8.
-Production настроен на HTTPS, Puma и PostgreSQL; публикация на хостинге
-в локальную проверку не входит.
+Ссылки Users и Settings остаются заглушками по главе 8; их реализация
+относится к главе 10. Remember me относится к главе 9 и здесь не добавлен.
+В production унаследованы HTTPS, Puma и PostgreSQL; развёртывание
+на хостинге не выполнялось. Подробности проверки: [docs/lab8.md](docs/lab8.md).

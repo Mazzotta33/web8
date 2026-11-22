@@ -1,1 +1,4 @@
-# Empty: users are created explicitly in model tests.
+michael:
+  name: Michael Example
+  email: michael@example.com
+  password_digest: <%= User.digest("password") %>
